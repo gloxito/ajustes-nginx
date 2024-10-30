@@ -1,0 +1,18 @@
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+
+// Configura multer para guardar archivos en /var/www/uploads
+const upload = multer({ dest: '/var/www/uploads/' });
+
+const app = express();
+
+app.post('/upload', upload.single('file'), (req, res) => {
+    res.send('Archivo subido: ' + req.file.filename);
+});
+
+app.use('/uploads', express.static('/var/www/uploads')); // Servir archivos subidos
+
+app.listen(3000, () => {
+    console.log('Servidor escuchando en http://localhost:3000');
+});
